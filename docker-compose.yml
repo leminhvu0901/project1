@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # 1. DATABASE (Chỉ Project 1 dùng)
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: user_proj1
+      POSTGRES_PASSWORD: password_proj1
+      POSTGRES_DB: db_proj1
+    volumes:
+      - db_data:/var/lib/postgresql/data # Volume riêng cho project 1
+    networks:
+      - internal_net
+
+  # 2. BACKEND API
+  api:
+    build: ./backend  # Đường dẫn tới folder chứa Dockerfile backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      # Kết nối DB qua tên service "db", port 5432 (nội bộ)
+      DATABASE_URL: postgres://user_proj1:password_proj1@db:5432/db_proj1
+      PORT: 5000
+    networks:
+      - internal_net
+    # Không cần ports trừ khi ông muốn test API trực tiếp từ ngoài
+
+  # 3. FRONTEND (Web)
+  web:
+    build: ./frontend # Đường dẫn tới folder chứa Dockerfile frontend
+    restart: always
+    ports:
+      - "3001:80"    # QUAN TRỌNG: Map port 80 trong container ra 3001 của Server
+    depends_on:
+      - api
+    networks:
+      - internal_net
+
+volumes:
+  db_data: # Khai báo volume
+
+networks:
+  internal_net: # Mạng nội bộ, các project khác không chui vào được
