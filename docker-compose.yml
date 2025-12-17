@@ -1,16 +1,6 @@
 version: '3.8'
 services:
-  node-app:
+  frontend-html:
     build: .
     ports:
-      - "3000:3000" # Project 1 chạy port 3000
-    depends_on:
-      - mongo
-  
-  mongo:
-    image: mongo:6.0
-    volumes:
-      - mongo_data:/data/db
-
-volumes:
-  mongo_data:
+      - "3000:80" # Chuyển cổng 80 của Nginx ra cổng 3000 máy bạn
