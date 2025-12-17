@@ -4,7 +4,8 @@ const app = express();
 const port = 3000;
 
 // Kết nối MongoDB
-const mongoUrl = 'mongodb://mongo:27017/shopdb';
+const mongoUrl = process.env.MONGO_URL || 'mongodb://mongo:27017/shopdb';
+
 
 mongoose.connect(mongoUrl)
   .then(() => console.log('Đã kết nối MongoDB!'))

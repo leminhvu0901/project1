@@ -3,7 +3,7 @@ services:
   node-app:
     build: .
     ports:
-      - "3000:3000" # Project 2 chạy port 3000
+      - "3000:3000" # Project 1 chạy port 3000
     depends_on:
       - mongo
   
