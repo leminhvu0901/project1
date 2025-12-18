@@ -3,4 +3,4 @@ services:
   frontend-html:
     build: .
     ports:
-      - "3000:80" # Chuyển cổng 80 của Nginx ra cổng 3000 máy bạn
+      - "3000:80" 
